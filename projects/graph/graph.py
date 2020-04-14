@@ -195,6 +195,7 @@ class Graph:
 
         # def dfs_recursion(current_vertex, destination_vertex, visited, path):
         #     if current_vertex == destination_vertex:
+        #         print(f"the path is: {path}")
         #         return path
         #     else:
         #         # for each neighboring vertex that has not already been visited...
@@ -202,8 +203,10 @@ class Graph:
         #             # add the number to the visited list and run the function again with that neighbor
         #             if next_vert not in visited:
         #                 visited.add(next_vert)
-        #                 new_recursion = dfs_recursion(next_vert, destination_vertex, visited, path)
+        #                 new_path = path + [next_vert]
+        #                 new_recursion = dfs_recursion(next_vert, destination_vertex, visited, new_path)
         #                 if new_recursion:
+        #                     print(f"new path is {new_path}")
         #                     return new_recursion
         
         # dfs_recursion(starting_vertex, destination_vertex, visited, path)
