@@ -1,3 +1,5 @@
+import random
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -45,8 +47,28 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        # Use add_user num_users time
 
         # Create friendships
+        for i in range(0, num_users):
+            self.add_user(f"User {i + 1}")
+
+        # Generate all friendship combinations
+        possible_friendships = []
+
+        # Avoid duplicates by making sure that the first number is smaller than the second number
+        for user_id in self.users:
+            for friend_id in range(user_id+1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+
+        # Shuffle all possible freindships
+        random.shuffle(possible_friendships)
+
+        # Create for first x pairs (avg_friednships / 2)
+        for i in range(num_users * (avg_friendships // 2)):
+            new_friendship = possible_friendships[i]
+            self.add_friendship(new_friendship[0], new_friendship[1])
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -66,5 +88,5 @@ if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
     print(sg.friendships)
-    connections = sg.get_all_social_paths(1)
-    print(connections)
+    # connections = sg.get_all_social_paths(1)
+    # print(connections)
