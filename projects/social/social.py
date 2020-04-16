@@ -81,6 +81,23 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        
+        def friend_recursion(current_friend, path):
+            # add current friend to path
+            newpath = path + [current_friend]
+
+            # add current friend to visited if they're not there
+            if current_friend not in visited:
+                visited[current_friend] = newpath
+
+            # Check current friend's friend list to see if they have already been visited.
+            # If not, run the recursion on them.
+            for sub_friend in self.friendships[current_friend]:
+                if sub_friend not in visited:
+                    friend_recursion(sub_friend, newpath)
+
+        friend_recursion(user_id, [])
+
         return visited
 
 
@@ -88,5 +105,5 @@ if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
     print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
