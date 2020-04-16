@@ -53,21 +53,49 @@ class SocialGraph:
         for i in range(0, num_users):
             self.add_user(f"User {i + 1}")
 
-        # Generate all friendship combinations
-        possible_friendships = []
+        # # Generate all friendship combinations
+        # possible_friendships = []
 
-        # Avoid duplicates by making sure that the first number is smaller than the second number
+        # # Avoid duplicates by making sure that the first number is smaller than the second number
+        # for user_id in self.users:
+        #     for friend_id in range(user_id+1, self.last_id + 1):
+        #         possible_friendships.append((user_id, friend_id))
+
+        # # Shuffle all possible freindships
+        # random.shuffle(possible_friendships)
+
+        # # Create for first x pairs (avg_friednships / 2)
+        # for i in range(num_users * (avg_friendships // 2)):
+        #     new_friendship = possible_friendships[i]
+        #     self.add_friendship(new_friendship[0], new_friendship[1])
+
+        possible_friendships = {}
+        number_of_friends = 0
+
+        # set up friend list dictionary with a blank array of friends for each user
         for user_id in self.users:
-            for friend_id in range(user_id+1, self.last_id + 1):
-                possible_friendships.append((user_id, friend_id))
+            possible_friendships[user_id] = []
 
-        # Shuffle all possible freindships
-        random.shuffle(possible_friendships)
+        # create random friend combinations
+        while number_of_friends < (num_users * (avg_friendships // 2)):
+            # generate a random user (don't include the last user for debug purposes)
+            random_user = random.randint(1, num_users - 1)
+            # generate a random friend for that user that has an id higher than 
+            users_friend = random.randint(random_user + 1, num_users)
 
-        # Create for first x pairs (avg_friednships / 2)
-        for i in range(num_users * (avg_friendships // 2)):
-            new_friendship = possible_friendships[i]
-            self.add_friendship(new_friendship[0], new_friendship[1])
+            # if the friendship relationship doesn't already exist, add it
+            if users_friend in possible_friendships[random_user]:
+                continue
+            else:
+                possible_friendships[random_user] += [users_friend]
+                number_of_friends += 1
+        
+        # iterate through the dictionary of possible friendships and add all the friend relationships
+        for user in possible_friendships:
+            for user_friend in possible_friendships[user]:
+                self.add_friendship(user, user_friend)
+
+
 
 
     def get_all_social_paths(self, user_id):
